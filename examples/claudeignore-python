@@ -1,0 +1,101 @@
+# -----------------------------------------------
+# Python 프로젝트용 .claudeignore
+# -----------------------------------------------
+# 사용법: 프로젝트 루트에 .claudeignore 이름으로 복사
+#   cp examples/claudeignore-python .claudeignore
+#
+# Claude Code가 아래 경로를 자동 탐색하지 않습니다.
+# "이 파일 읽어줘"처럼 직접 요청하면 여전히 접근 가능합니다.
+# -----------------------------------------------
+
+# 가상환경 (수천 개 파일)
+.venv/
+venv/
+env/
+.env/
+ENV/
+
+# 컴파일된 바이트코드
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# 패키지 빌드 산출물
+dist/
+build/
+*.egg-info/
+*.egg
+MANIFEST
+wheels/
+sdist/
+
+# 테스트 및 커버리지
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+
+# 타입 체커 캐시
+.mypy_cache/
+.pytype/
+.pyre/
+.ruff_cache/
+
+# 환경 변수 (민감 정보)
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# 데이터 및 모델 파일 (대용량)
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# 데이터베이스
+*.sqlite
+*.sqlite3
+*.db
+
+# 문서 빌드
+docs/_build/
+site/
+.sphinx/
+
+# 미디어
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf
+
+# IDE / 에디터
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS 시스템 파일
+.DS_Store
+Thumbs.db
+desktop.ini

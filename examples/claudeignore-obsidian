@@ -1,0 +1,83 @@
+# -----------------------------------------------
+# Obsidian 볼트용 .claudeignore
+# -----------------------------------------------
+# 사용법: 볼트 루트에 .claudeignore 이름으로 복사
+#   cp examples/claudeignore-obsidian /your/vault/.claudeignore
+#
+# Claude Code가 아래 경로를 자동 탐색하지 않습니다.
+# "이 파일 읽어줘"처럼 직접 요청하면 여전히 접근 가능합니다.
+# -----------------------------------------------
+
+# Obsidian 내부 설정 (JSON / 플러그인 데이터 수백 개)
+.obsidian/
+
+# 휴지통
+.trash/
+
+# 플러그인 캐시 및 인덱스
+.smart-env/
+.smart-connections/
+.vector-store/
+
+# 동기화 도구 잔여 파일
+.sync-conflict-*
+conflict-*
+
+# 첨부 파일 폴더 (이미지, PDF 등)
+# 볼트 구조에 맞게 경로 수정하세요
+attachments/
+files/
+assets/
+media/
+
+# 문서 파일 (바이너리)
+*.pdf
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.pptx
+*.ppt
+*.hwp
+
+# 이미지
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.bmp
+*.tiff
+
+# 오디오 / 동영상
+*.mp3
+*.m4a
+*.wav
+*.mp4
+*.mov
+*.avi
+
+# 압축 파일
+*.zip
+*.tar.gz
+*.7z
+*.rar
+
+# 데이터 파일
+*.csv
+*.json
+*.sqlite
+*.db
+
+# OS 시스템 파일
+.DS_Store
+Thumbs.db
+desktop.ini
+Icon?
+
+# 임시 / 백업 파일
+*.tmp
+*.bak
+*.swp
+*~
