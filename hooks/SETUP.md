@@ -1,5 +1,6 @@
-> 이 문서에서 제공하는 훅은 세 가지다.
+> 이 문서에서 제공하는 훅은 네 가지다.
 > - **ReadOnce**: 동일 파일 중복 읽기 자동 차단 (PreToolUse)
+> - **prompt-lint**: 토큰 낭비 패턴 사전 감지 및 리라이팅 제안 (UserPromptSubmit)
 > - **context-watch**: 컨텍스트 임계값 도달 시 경고 (Stop)
 > - **report-save**: 일별 토큰 사용량 자동 저장 (Stop)
 >
@@ -157,6 +158,96 @@ chmod +x ~/.claude/hooks/context-watch.sh
 ```
 
 context-watch만 단독으로 쓴다면 `Stop` 블록에 해당 항목만 남기면 된다.
+
+---
+
+## prompt-lint 훅 설치 (macOS / Linux)
+
+사용자가 메시지를 입력할 때마다 토큰 낭비가 예상되는 패턴을 감지하고 더 효율적인 요청 방법을 제안한다.
+요청 자체는 차단하지 않으며 경고만 출력한다.
+
+감지 패턴:
+- 전체 파일 / 모든 파일 / whole file
+- 처음부터 다시 / from scratch / rewrite everything
+- 전면 리팩토링 / full refactor / refactor all
+- 모든 에러 수정 / fix all errors / fix all bugs
+- 전부 다 해줘 / do everything
+- 프로젝트 전체 / entire codebase
+
+### 1. 훅 파일 복사
+
+```bash
+cp hooks/prompt-lint.sh ~/.claude/hooks/prompt-lint.sh
+chmod +x ~/.claude/hooks/prompt-lint.sh
+```
+
+### 2. settings.json에 등록
+
+네 훅을 모두 쓴다면 아래 예시처럼 한 파일에 등록한다.
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/prompt-lint.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/readonce-hook.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/context-watch.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/report-save.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 3. 동작 확인
+
+Claude Code에서 아래처럼 입력하면 경고가 표시되면 정상이다.
+
+```
+전체 파일 리팩토링해줘
+```
+
+```
+🔍 prompt-lint  토큰 낭비 패턴 1개 감지
+──────────────────────────────────────────────────────
+  1. ⚠️  전체 리팩토링은 파일을 전부 읽어야 해 토큰 소모가 큽니다
+     💡 목적을 구체화해보세요
+        예) "이 파일의 중복된 DB 호출 부분만 줄여줘"
+──────────────────────────────────────────────────────
+요청은 그대로 진행됩니다. 위 제안을 참고해 다음 번엔 더 좁혀서 요청해보세요.
+```
 
 ---
 
