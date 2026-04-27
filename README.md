@@ -132,6 +132,13 @@ No need to run `/context` manually — it alerts you when thresholds are crossed
 - 🟡 60%+: recommends `/compact`
 - 🔴 80%+: warns to run `/clear` or `/compact`
 
+### report-save hook
+
+Automatically saves a daily token usage snapshot after each Claude response.
+Stored at `~/.claude/token-diet-reports/YYYY-MM-DD.json`.
+When you run `/token-diet`, this data is used to display a 7-day trend comparison.
+Only saves once per day — if today's file already exists, it is skipped.
+
 Full setup for all hooks: [`hooks/SETUP.md`](hooks/SETUP.md)
 
 ---
@@ -140,6 +147,8 @@ Full setup for all hooks: [`hooks/SETUP.md`](hooks/SETUP.md)
 
 - `/token-diet` command: Parses JSONL session files under `~/.claude/projects/` to aggregate real token usage per command.
 - ReadOnce hook: Intercepts Claude Code's `PreToolUse` event to block duplicate reads. Uses SHA-256 hashing for file path tracking. No dependencies beyond python3.
+- context-watch hook: Reads the latest session JSONL on each `Stop` event and calculates context usage against the 200k token limit.
+- report-save hook: Runs on each `Stop` event, writes a JSON snapshot once per day, and skips silently if today's report already exists.
 - Everything runs locally. No external servers or APIs.
 
 ---
@@ -164,9 +173,10 @@ The original is released under the MIT license.
 What's new in this version:
 - Token usage analysis by parsing actual session JSONL files
 - Per-category command breakdown and TOP 5 report
+- 7-day trend comparison using daily saved reports
 - ReadOnce hook rewritten with SHA-256 hashing and stdin parsing fix
 - context-watch hook for automatic context threshold alerts
-- report-save hook for daily token usage snapshots and 7-day trend comparison
+- report-save hook for daily token usage snapshots
 - Korean-only interface
 
 ## License
